@@ -11,13 +11,21 @@ export default class DeckDetail extends React.Component {
     };
   };
 
+  addCard = () => {
+    this.props.navigation.navigate('QuizAddQuestion');
+  };
+
+  startQuiz = () => {
+    this.props.navigation.navigate('QuizDetail');
+  };
+
   render() {
     const item = { key: '1', quantity: 10, name: 'React', color: '#FFA104' };
-    const darkerColor = calculateColor(item.color, -0.1);
+    const darkerColor = calculateColor('#E8EDF0', -0.1);
 
     return (
       <View style={styles.container}>
-        <Card color={item.color} style={{ height: 200, margin: 10 }}>
+        <Card color="#E8EDF0" style={{ height: 200, margin: 10 }}>
           <Text style={styles.deckTitle}>{item.name}</Text>
           <View style={[styles.deckQuantity, { backgroundColor: darkerColor }]}>
             <Text style={styles.deckQuantityText}>{item.quantity} cards</Text>
@@ -35,13 +43,14 @@ export default class DeckDetail extends React.Component {
               borderStyle: 'dashed',
               marginHorizontal: 10,
             }}
+            onPress={this.addCard}
           >
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
               <Text style={{ color: 'rgba(0, 0, 0, 0.4)', fontWeight: 'bold' }}>Add Card</Text>
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity style={{ flex: 1, height: 50 }}>
+          <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={this.startQuiz}>
             <Card
               color={item.color}
               borderSize={5}
@@ -79,7 +88,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   deckTitle: {
-    color: '#FFF',
+    color: 'rgba(0, 0, 0, 0.4)',
     fontSize: 30,
     fontWeight: 'bold',
   },
@@ -89,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   deckQuantityText: {
-    color: '#FFF',
+    color: 'rgba(0, 0, 0, 0.4)',
   },
   buttonArea: {
     flex: 1,

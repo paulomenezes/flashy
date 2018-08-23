@@ -2,6 +2,9 @@ import { createStackNavigator } from 'react-navigation';
 
 import DeckList from './src/views/DeckList';
 import DeckDetail from './src/views/DeckDetail';
+import DeckAdd from './src/views/DeckAdd';
+import QuizDetail from './src/views/QuizDetail';
+import QuizAddQuestion from './src/views/QuizAddQuestion';
 
 export default createStackNavigator(
   {
@@ -13,6 +16,21 @@ export default createStackNavigator(
     },
     DeckDetail: {
       screen: DeckDetail,
+    },
+    DeckAdd: {
+      screen: DeckAdd,
+      navigationOptions: {
+        title: 'New Deck',
+      },
+    },
+    QuizDetail: {
+      screen: QuizDetail,
+    },
+    QuizAddQuestion: {
+      screen: QuizAddQuestion,
+      navigationOptions: {
+        title: 'New Card',
+      },
     },
   },
   {

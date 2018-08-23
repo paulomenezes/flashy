@@ -21,6 +21,10 @@ export default class DeckList extends React.Component {
     this.props.navigation.navigate('DeckDetail');
   };
 
+  addDeck = () => {
+    this.props.navigation.navigate('DeckAdd');
+  };
+
   render() {
     return (
       <View style={styles.container}>
@@ -31,13 +35,17 @@ export default class DeckList extends React.Component {
           renderItem={({ item, index }) => {
             const darkerColor = calculateColor(item.color, -0.1);
 
-            return (
-              <TouchableOpacity onPress={this.selectDeck}>
-                {index === 0 ? (
+            if (index === 0) {
+              return (
+                <TouchableOpacity onPress={this.addDeck}>
                   <View style={styles.addDeckContainer}>
                     <Icon name="plus" size={40} color="#86ADBB" />
                   </View>
-                ) : (
+                </TouchableOpacity>
+              );
+            } else {
+              return (
+                <TouchableOpacity onPress={this.selectDeck}>
                   <View style={[styles.deckContainer, { backgroundColor: darkerColor }]}>
                     <View style={[styles.deckContainerButton, { backgroundColor: item.color }]}>
                       <Text style={styles.deckTitle}>{item.name}</Text>
@@ -46,9 +54,9 @@ export default class DeckList extends React.Component {
                       </View>
                     </View>
                   </View>
-                )}
-              </TouchableOpacity>
-            );
+                </TouchableOpacity>
+              );
+            }
           }}
         />
       </View>
