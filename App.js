@@ -1,23 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
+import DeckList from './src/views/DeckList';
+import DeckDetail from './src/views/DeckDetail';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+export default createStackNavigator(
+  {
+    DeckList: {
+      screen: DeckList,
+      navigationOptions: {
+        title: 'Flashy',
+      },
+    },
+    DeckDetail: {
+      screen: DeckDetail,
+    },
   },
-});
+  {
+    navigationOptions: {
+      headerStyle: {
+        backgroundColor: '#fff',
+        borderBottomWidth: 0,
+        shadowColor: '#949494',
+        shadowOffset: { width: 0, height: 10 },
+        shadowOpacity: 0.1,
+        shadowRadius: 10,
+      },
+      headerTintColor: '#949494',
+      headerTitleStyle: {
+        fontWeight: 'bold',
+      },
+    },
+  }
+);
