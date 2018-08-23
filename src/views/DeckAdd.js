@@ -1,19 +1,31 @@
 import React from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
+
+import { addDeck } from '../actions/deck';
 
 import Card from '../components/Card';
 
-export default class DeckAdd extends React.Component {
+class DeckAdd extends React.Component {
+  state = {
+    title: '',
+  };
+
+  addDeck = () => {
+    this.props.addDeck(this.state.title);
+    this.props.navigation.goBack();
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>What is the title of your new deck?</Text>
 
         <View style={styles.inputArea}>
-          <TextInput style={styles.input} />
+          <TextInput style={styles.input} value={this.state.title} onChangeText={title => this.setState({ title })} />
         </View>
 
-        <TouchableOpacity style={{ flex: 1, height: 50 }}>
+        <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={this.addDeck} disabled={!this.state.title}>
           <Card
             color="#949494"
             borderSize={5}
@@ -55,3 +67,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+const mapStateToProps = () => ({});
+const mapDispatchToProps = dispatch => ({
+  addDeck: title => dispatch(addDeck(title)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DeckAdd);

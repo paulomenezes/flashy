@@ -7,9 +7,19 @@ import Card from '../components/Card';
 export default class DeckDetail extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: navigation.getParam('otherParam', 'React'),
+      title: navigation.getParam('item').title,
     };
   };
+
+  state = {
+    item: null,
+  };
+
+  componentDidMount() {
+    this.setState({
+      item: this.props.navigation.getParam('item'),
+    });
+  }
 
   addCard = () => {
     this.props.navigation.navigate('QuizAddQuestion');
@@ -20,15 +30,19 @@ export default class DeckDetail extends React.Component {
   };
 
   render() {
-    const item = { key: '1', quantity: 10, name: 'React', color: '#FFA104' };
+    const item = this.state.item;
     const darkerColor = calculateColor('#E8EDF0', -0.1);
+
+    if (!item) {
+      return <Text>Loading...</Text>;
+    }
 
     return (
       <View style={styles.container}>
         <Card color="#E8EDF0" style={{ height: 200, margin: 10 }}>
-          <Text style={styles.deckTitle}>{item.name}</Text>
+          <Text style={styles.deckTitle}>{item.title}</Text>
           <View style={[styles.deckQuantity, { backgroundColor: darkerColor }]}>
-            <Text style={styles.deckQuantityText}>{item.quantity} cards</Text>
+            <Text style={styles.deckQuantityText}>{item.questions.length} cards</Text>
           </View>
         </Card>
 

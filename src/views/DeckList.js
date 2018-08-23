@@ -1,12 +1,13 @@
 import React from 'react';
 import { TouchableOpacity, Text, View, StyleSheet, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { connect } from 'react-redux';
 
 import { calculateColor } from '../utils/helpers';
 
 const { width } = Dimensions.get('window');
 
-export default class DeckList extends React.Component {
+class DeckList extends React.Component {
   state = {
     data: [
       { key: '0' },
@@ -17,8 +18,10 @@ export default class DeckList extends React.Component {
     ],
   };
 
-  selectDeck = () => {
-    this.props.navigation.navigate('DeckDetail');
+  selectDeck = item => {
+    this.props.navigation.navigate('DeckDetail', {
+      item,
+    });
   };
 
   addDeck = () => {
@@ -29,8 +32,8 @@ export default class DeckList extends React.Component {
     return (
       <View style={styles.container}>
         <FlatList
-          data={this.state.data}
-          keyExtractor={item => item.key}
+          data={this.props.decks}
+          keyExtractor={item => item.title}
           numColumns={2}
           renderItem={({ item, index }) => {
             const darkerColor = calculateColor(item.color, -0.1);
@@ -45,12 +48,12 @@ export default class DeckList extends React.Component {
               );
             } else {
               return (
-                <TouchableOpacity onPress={this.selectDeck}>
+                <TouchableOpacity onPress={() => this.selectDeck(item)}>
                   <View style={[styles.deckContainer, { backgroundColor: darkerColor }]}>
                     <View style={[styles.deckContainerButton, { backgroundColor: item.color }]}>
-                      <Text style={styles.deckTitle}>{item.name}</Text>
+                      <Text style={styles.deckTitle}>{item.title}</Text>
                       <View style={[styles.deckQuantity, { backgroundColor: darkerColor }]}>
-                        <Text style={styles.deckQuantityText}>{item.quantity} cards</Text>
+                        <Text style={styles.deckQuantityText}>{item.questions.length} cards</Text>
                       </View>
                     </View>
                   </View>
@@ -116,3 +119,9 @@ const styles = StyleSheet.create({
     color: '#FFF',
   },
 });
+
+const mapStateToProps = state => ({
+  decks: Object.values(state),
+});
+
+export default connect(mapStateToProps)(DeckList);
