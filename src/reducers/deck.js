@@ -4,6 +4,11 @@ const initialState = {
   add: {
     title: 'add',
   },
+  teste: {
+    title: 'teste',
+    color: '#FFA104',
+    questions: [],
+  },
 };
 
 const colors = ['#FFA104', '#0096F5', '#446DFF', '#FF2C3D'];

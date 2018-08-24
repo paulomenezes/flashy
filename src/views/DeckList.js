@@ -1,23 +1,15 @@
 import React from 'react';
-import { TouchableOpacity, Text, View, StyleSheet, Dimensions, FlatList } from 'react-native';
+import { TouchableOpacity, Text, View, Dimensions, FlatList } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 
+import Card from '../components/Card';
 import { calculateColor } from '../utils/helpers';
 
 const { width } = Dimensions.get('window');
+const size = width / 2 - 15;
 
 class DeckList extends React.Component {
-  state = {
-    data: [
-      { key: '0' },
-      { key: '1', quantity: 10, name: 'React', color: '#FFA104' },
-      { key: '2', quantity: 15, name: 'Redux', color: '#0096F5' },
-      { key: '3', quantity: 5, name: 'React Native', color: '#446DFF' },
-      { key: '4', quantity: 20, name: 'Udacity', color: '#FF2C3D' },
-    ],
-  };
-
   selectDeck = item => {
     this.props.navigation.navigate('DeckDetail', {
       item,
@@ -49,14 +41,12 @@ class DeckList extends React.Component {
             } else {
               return (
                 <TouchableOpacity onPress={() => this.selectDeck(item)}>
-                  <View style={[styles.deckContainer, { backgroundColor: darkerColor }]}>
-                    <View style={[styles.deckContainerButton, { backgroundColor: item.color }]}>
-                      <Text style={styles.deckTitle}>{item.title}</Text>
-                      <View style={[styles.deckQuantity, { backgroundColor: darkerColor }]}>
-                        <Text style={styles.deckQuantityText}>{item.questions.length} cards</Text>
-                      </View>
+                  <Card color={item.color} style={styles.deckContainer}>
+                    <Text style={styles.deckTitle}>{item.title}</Text>
+                    <View style={[styles.deckQuantity, { backgroundColor: darkerColor }]}>
+                      <Text style={styles.deckQuantityText}>{item.questions.length} cards</Text>
                     </View>
-                  </View>
+                  </Card>
                 </TouchableOpacity>
               );
             }
@@ -67,7 +57,7 @@ class DeckList extends React.Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1,
     backgroundColor: '#FCFCFC',
@@ -80,29 +70,16 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginVertical: 10,
     borderRadius: 10,
-    width: width / 2 - 15,
-    height: width / 2 - 15,
+    width: size,
+    height: size,
     justifyContent: 'center',
     alignItems: 'center',
   },
   deckContainer: {
-    backgroundColor: '#EE8602',
     marginLeft: 10,
     marginVertical: 10,
-    borderRadius: 10,
-    width: width / 2 - 15,
-    height: width / 2 - 15,
-  },
-  deckContainerButton: {
-    padding: 10,
-    borderRadius: 10,
-    backgroundColor: '#FFA104',
-    alignItems: 'flex-start',
-    position: 'absolute',
-    top: 0,
-    bottom: 10,
-    left: 0,
-    right: 0,
+    width: size,
+    height: size,
   },
   deckTitle: {
     color: '#FFF',
@@ -118,7 +95,7 @@ const styles = StyleSheet.create({
   deckQuantityText: {
     color: '#FFF',
   },
-});
+};
 
 const mapStateToProps = state => ({
   decks: Object.values(state),
