@@ -26,6 +26,16 @@ export default class QuizDetail extends React.Component {
     });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.correct !== this.props.navigation.getParam('correct')) {
+      this.setState({
+        question: this.props.navigation.getParam('question'),
+        correct: this.props.navigation.getParam('correct'),
+        deck: this.props.navigation.getParam('deck'),
+      });
+    }
+  }
+
   addCard = () => {
     this.props.navigation.navigate('QuizAddQuestion');
   };
@@ -38,7 +48,10 @@ export default class QuizDetail extends React.Component {
     });
 
     if (this.state.question === this.state.deck.questions.length - 1) {
-      this.props.navigation.navigate('DeckList');
+      this.props.navigation.navigate('QuizResult', {
+        deck: this.state.deck,
+        correct: correct ? ++this.state.correct : this.state.correct,
+      });
     } else {
       this.props.navigation.navigate('QuizDetail', {
         question: ++this.state.question,

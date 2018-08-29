@@ -10,6 +10,7 @@ import DeckList from './views/DeckList';
 import DeckDetail from './views/DeckDetail';
 import DeckAdd from './views/DeckAdd';
 import QuizDetail from './views/QuizDetail';
+import QuizResult from './views/QuizResult';
 import QuizAddQuestion from './views/QuizAddQuestion';
 
 export default createStackNavigator(
@@ -31,6 +32,9 @@ export default createStackNavigator(
     },
     QuizDetail: {
       screen: QuizDetail,
+    },
+    QuizResult: {
+      screen: QuizResult,
     },
     QuizAddQuestion: {
       screen: QuizAddQuestion,
