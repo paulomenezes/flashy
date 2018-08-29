@@ -3,6 +3,8 @@ import { TouchableOpacity, Text, View, Dimensions, FlatList } from 'react-native
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 
+import { loadDecks } from '../actions/deck';
+
 import Card from '../components/Card';
 import { calculateColor } from '../utils/helpers';
 
@@ -10,6 +12,10 @@ const { width } = Dimensions.get('window');
 const size = width / 2 - 15;
 
 class DeckList extends React.Component {
+  componentDidMount() {
+    this.props.loadDecks();
+  }
+
   selectDeck = item => {
     this.props.navigation.navigate('DeckDetail', {
       item,
@@ -101,4 +107,11 @@ const mapStateToProps = state => ({
   decks: Object.values(state),
 });
 
-export default connect(mapStateToProps)(DeckList);
+const mapDispatchToProps = dispatch => ({
+  loadDecks: () => dispatch(loadDecks()),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DeckList);

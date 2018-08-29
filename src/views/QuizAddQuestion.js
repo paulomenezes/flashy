@@ -1,25 +1,39 @@
 import React from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
+import { addQuestion } from '../actions/deck';
 import Card from '../components/Card';
 
-export default class QuizAddQuestion extends React.Component {
+class QuizAddQuestion extends React.Component {
+  state = {
+    question: '',
+    answer: '',
+  };
+
+  submit = () => {
+    const deck = this.props.navigation.getParam('deck');
+    this.props.addQuestion(deck.id, this.state.question, this.state.answer);
+
+    this.props.navigation.goBack();
+  };
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Question</Text>
 
         <View style={styles.inputArea}>
-          <TextInput style={styles.input} />
+          <TextInput style={styles.input} value={this.state.question} onChangeText={question => this.setState({ question })} />
         </View>
 
         <Text style={styles.title}>Answer</Text>
 
         <View style={styles.inputArea}>
-          <TextInput style={styles.input} />
+          <TextInput style={styles.input} value={this.state.answer} onChangeText={answer => this.setState({ answer })} />
         </View>
 
-        <TouchableOpacity style={{ flex: 1, height: 50 }}>
+        <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={this.submit}>
           <Card
             color="#949494"
             borderSize={5}
@@ -61,3 +75,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
+
+const mapStateToProps = state => ({});
+const mapDispatchToProps = dispatch => ({
+  addQuestion: (deckId, question, answer) => dispatch(addQuestion(deckId, question, answer)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(QuizAddQuestion);

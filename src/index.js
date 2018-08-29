@@ -1,4 +1,10 @@
 import { createStackNavigator } from 'react-navigation';
+import Reactotron, { asyncStorage } from 'reactotron-react-native';
+
+Reactotron.configure() // controls connection & communication settings
+  .useReactNative() // add all built-in react native plugins
+  .use(asyncStorage())
+  .connect();
 
 import DeckList from './views/DeckList';
 import DeckDetail from './views/DeckDetail';

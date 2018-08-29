@@ -6,14 +6,29 @@ import { addDeck } from '../actions/deck';
 
 import Card from '../components/Card';
 
+function guid() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+      .toString(16)
+      .substring(1);
+  }
+  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+}
+
 class DeckAdd extends React.Component {
   state = {
     title: '',
   };
 
   addDeck = () => {
-    this.props.addDeck(this.state.title);
-    this.props.navigation.goBack();
+    const id = guid();
+    this.props.addDeck(id, this.state.title);
+    this.props.navigation.navigate('DeckDetail', {
+      item: {
+        id,
+        title: this.state.title,
+      },
+    });
   };
 
   render() {
@@ -70,7 +85,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = () => ({});
 const mapDispatchToProps = dispatch => ({
-  addDeck: title => dispatch(addDeck(title)),
+  addDeck: (id, title) => dispatch(addDeck(id, title)),
 });
 
 export default connect(
