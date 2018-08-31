@@ -1,15 +1,17 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 import { calculateColor } from '../utils/helpers';
+import { setLocalNotification, clearLocalNotification } from '../utils/notifications';
+
 import Card from '../components/Card';
+import Button from '../components/Button';
+import DashedButton from '../components/DashedButton';
 
 export default class QuizDetail extends React.Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam('deck').title,
-    };
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam('deck').title,
+  });
 
   state = {
     deck: null,
@@ -48,6 +50,8 @@ export default class QuizDetail extends React.Component {
     });
 
     if (this.state.question === this.state.deck.questions.length - 1) {
+      clearLocalNotification().then(setLocalNotification);
+
       this.props.navigation.navigate('QuizResult', {
         deck: this.state.deck,
         correct: correct ? ++this.state.correct : this.state.correct,
@@ -62,7 +66,6 @@ export default class QuizDetail extends React.Component {
   };
 
   render() {
-    const item = { key: '1', quantity: 10, name: 'React', color: '#FFA104' };
     const darkerColor = calculateColor('#E8EDF0', -0.1);
 
     if (!this.state.deck) {
@@ -80,16 +83,12 @@ export default class QuizDetail extends React.Component {
           <Text style={styles.deckTitle}>{this.state.deck.questions[this.state.question].question}</Text>
         </Card>
 
-        <TouchableOpacity style={{ height: 50 }} onPress={this.toggleAnswer}>
-          <Card
-            color={item.color}
-            borderSize={5}
-            style={{ height: 50, marginHorizontal: 10 }}
-            innerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Text style={styles.buttonText}>{this.state.showAnswer ? 'Hide' : 'Show'} Answer</Text>
-          </Card>
-        </TouchableOpacity>
+        <Button
+          onPress={this.toggleAnswer}
+          color={this.state.deck.color}
+          cardStyle={{ height: 50, marginHorizontal: 10 }}
+          text={`${this.state.showAnswer ? 'Hide' : 'Show'} Answer`}
+        />
 
         {this.state.showAnswer && (
           <View>
@@ -98,33 +97,15 @@ export default class QuizDetail extends React.Component {
             </Card>
 
             <View style={styles.buttonArea}>
-              <TouchableOpacity
-                style={{
-                  flex: 1,
-                  height: 50,
-                  borderRadius: 10,
-                  borderWidth: 2,
-                  borderColor: 'rgba(0, 0, 0, 0.2)',
-                  borderStyle: 'dashed',
-                  marginHorizontal: 10,
-                }}
-                onPress={() => this.next(false)}
-              >
-                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                  <Text style={{ color: 'rgba(0, 0, 0, 0.4)', fontWeight: 'bold' }}>Incorrect</Text>
-                </View>
-              </TouchableOpacity>
+              <DashedButton onPress={() => this.next(false)} text="Incorrect" />
 
-              <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={() => this.next(true)}>
-                <Card
-                  color={item.color}
-                  borderSize={5}
-                  style={{ height: 50, marginRight: 10 }}
-                  innerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-                >
-                  <Text style={styles.buttonText}>Correct</Text>
-                </Card>
-              </TouchableOpacity>
+              <Button
+                style={{ flex: 1 }}
+                onPress={() => this.next(true)}
+                color={this.state.deck.color}
+                cardStyle={{ height: 50, marginRight: 10 }}
+                text="Correct"
+              />
             </View>
           </View>
         )}
@@ -138,21 +119,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FCFCFC',
     paddingTop: 10,
-  },
-  deckContainer: {
-    margin: 10,
-    borderRadius: 10,
-    height: 200,
-  },
-  deckContainerButton: {
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'flex-start',
-    position: 'absolute',
-    top: 0,
-    bottom: 10,
-    left: 0,
-    right: 0,
   },
   deckTitle: {
     color: 'rgba(0, 0, 0, 0.4)',
@@ -170,9 +136,5 @@ const styles = StyleSheet.create({
   buttonArea: {
     flex: 1,
     flexDirection: 'row',
-  },
-  buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
   },
 });

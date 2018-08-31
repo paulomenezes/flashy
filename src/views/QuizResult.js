@@ -1,9 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import { calculateColor } from '../utils/helpers';
 import Card from '../components/Card';
+import Button from '../components/Button';
+import DashedButton from '../components/DashedButton';
 
 class QuizResult extends React.Component {
   static navigationOptions = ({ navigation }) => ({
@@ -60,33 +62,9 @@ class QuizResult extends React.Component {
         </Card>
 
         <View style={styles.buttonArea}>
-          <TouchableOpacity
-            style={{
-              flex: 1,
-              height: 50,
-              borderRadius: 10,
-              borderWidth: 2,
-              borderColor: 'rgba(0, 0, 0, 0.2)',
-              borderStyle: 'dashed',
-              marginHorizontal: 10,
-            }}
-            onPress={this.startQuiz}
-          >
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-              <Text style={{ color: 'rgba(0, 0, 0, 0.4)', fontWeight: 'bold' }}>Restart Quiz</Text>
-            </View>
-          </TouchableOpacity>
+          <DashedButton onPress={this.startQuiz} text="Restart Quiz" />
 
-          <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={this.backToDeck}>
-            <Card
-              color={item.color}
-              borderSize={5}
-              style={{ height: 50, marginRight: 10 }}
-              innerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-            >
-              <Text style={styles.buttonText}>Back to Deck</Text>
-            </Card>
-          </TouchableOpacity>
+          <Button style={{ flex: 1 }} onPress={this.backToDeck} color={item.color} cardStyle={{ marginRight: 10 }} text="Back to Deck" />
         </View>
       </View>
     );
@@ -98,21 +76,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#FCFCFC',
     paddingTop: 10,
-  },
-  deckContainer: {
-    margin: 10,
-    borderRadius: 10,
-    height: 200,
-  },
-  deckContainerButton: {
-    padding: 10,
-    borderRadius: 10,
-    alignItems: 'flex-start',
-    position: 'absolute',
-    top: 0,
-    bottom: 10,
-    left: 0,
-    right: 0,
   },
   deckTitle: {
     color: 'rgba(0, 0, 0, 0.4)',
@@ -130,10 +93,6 @@ const styles = StyleSheet.create({
   buttonArea: {
     flex: 1,
     flexDirection: 'row',
-  },
-  buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
   },
 });
 

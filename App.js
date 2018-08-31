@@ -3,11 +3,18 @@ import { Provider } from 'react-redux';
 
 import Flashy from './src';
 import store from './src/store';
+import { setLocalNotification } from './src/utils/notifications';
 
-const App = () => (
-  <Provider store={store}>
-    <Flashy />
-  </Provider>
-);
+export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
 
-export default App;
+  render() {
+    return (
+      <Provider store={store}>
+        <Flashy />
+      </Provider>
+    );
+  }
+}

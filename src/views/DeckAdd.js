@@ -2,18 +2,10 @@ import React from 'react';
 import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 
+import { guid } from '../utils/helpers';
 import { addDeck } from '../actions/deck';
 
-import Card from '../components/Card';
-
-function guid() {
-  function s4() {
-    return Math.floor((1 + Math.random()) * 0x10000)
-      .toString(16)
-      .substring(1);
-  }
-  return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-}
+import Button from '../components/Button';
 
 class DeckAdd extends React.Component {
   state = {
@@ -40,16 +32,7 @@ class DeckAdd extends React.Component {
           <TextInput style={styles.input} value={this.state.title} onChangeText={title => this.setState({ title })} />
         </View>
 
-        <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={this.addDeck} disabled={!this.state.title}>
-          <Card
-            color="#949494"
-            borderSize={5}
-            style={{ height: 50, marginHorizontal: 10 }}
-            innerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Text style={styles.buttonText}>Submit</Text>
-          </Card>
-        </TouchableOpacity>
+        <Button onPress={this.addDeck} disabled={!this.state.title} color="#949494" cardStyle={{ marginHorizontal: 10 }} text="Submit" />
       </View>
     );
   }

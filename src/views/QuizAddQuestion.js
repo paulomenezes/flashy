@@ -1,9 +1,9 @@
 import React from 'react';
-import { Text, View, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, TextInput, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import { addQuestion } from '../actions/deck';
-import Card from '../components/Card';
+import Button from '../components/Button';
 
 class QuizAddQuestion extends React.Component {
   state = {
@@ -13,8 +13,8 @@ class QuizAddQuestion extends React.Component {
 
   submit = () => {
     const deck = this.props.navigation.getParam('deck');
-    this.props.addQuestion(deck.id, this.state.question, this.state.answer);
 
+    this.props.addQuestion(deck.id, this.state.question, this.state.answer);
     this.props.navigation.goBack();
   };
 
@@ -33,16 +33,13 @@ class QuizAddQuestion extends React.Component {
           <TextInput style={styles.input} value={this.state.answer} onChangeText={answer => this.setState({ answer })} />
         </View>
 
-        <TouchableOpacity style={{ flex: 1, height: 50 }} onPress={this.submit}>
-          <Card
-            color="#949494"
-            borderSize={5}
-            style={{ height: 50, marginHorizontal: 10 }}
-            innerStyle={{ justifyContent: 'center', alignItems: 'center' }}
-          >
-            <Text style={styles.buttonText}>Submit</Text>
-          </Card>
-        </TouchableOpacity>
+        <Button
+          onPress={this.submit}
+          cardStyle={{ marginHorizontal: 10 }}
+          color="#949494"
+          text="Submit"
+          disabled={!this.state.question || !this.state.answer}
+        />
       </View>
     );
   }
@@ -70,18 +67,13 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#949494',
   },
-  buttonText: {
-    color: '#FFF',
-    fontWeight: 'bold',
-  },
 });
 
-const mapStateToProps = state => ({});
 const mapDispatchToProps = dispatch => ({
   addQuestion: (deckId, question, answer) => dispatch(addQuestion(deckId, question, answer)),
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(QuizAddQuestion);
