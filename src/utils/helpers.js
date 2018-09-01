@@ -17,6 +17,15 @@ export function calculateColor(hex, lum) {
   return rgb;
 }
 
+export function getRandomColor() {
+  var letters = '0123456789ABCDEF';
+  var color = '#';
+  for (var i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
 export function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)

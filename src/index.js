@@ -3,6 +3,7 @@ import { createStackNavigator } from 'react-navigation';
 import DeckList from './views/DeckList';
 import DeckDetail from './views/DeckDetail';
 import DeckAdd from './views/DeckAdd';
+import DeckEditCards from './views/DeckEditCards';
 import QuizDetail from './views/QuizDetail';
 import QuizResult from './views/QuizResult';
 import QuizAddQuestion from './views/QuizAddQuestion';
@@ -22,6 +23,12 @@ export default createStackNavigator(
       screen: DeckAdd,
       navigationOptions: {
         title: 'New Deck',
+      },
+    },
+    DeckEditCards: {
+      screen: DeckEditCards,
+      navigationOptions: {
+        title: 'Edit Cards',
       },
     },
     QuizDetail: {

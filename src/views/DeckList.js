@@ -36,7 +36,13 @@ class DeckList extends React.Component {
     } else {
       return (
         <TouchableOpacity onPress={() => this.selectDeck(item)}>
-          <DefaultCard color={item.color} style={styles.deckContainer} title={item.title} body={`${item.questions.length} cards`} textColor="#FFF" />
+          <DefaultCard
+            color={item.color}
+            style={styles.deckContainer}
+            title={item.title}
+            body={`${item.questions.length} ${item.questions.length === 1 ? 'card' : 'cards'}`}
+            textColor="#FFF"
+          />
         </TouchableOpacity>
       );
     }

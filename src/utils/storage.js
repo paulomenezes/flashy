@@ -21,9 +21,31 @@ export function saveDeck(deck) {
   );
 }
 
+export function deleteDeck(deck) {
+  return getDecks().then(decks => {
+    decks[deck.id] = undefined;
+    delete decks[deck.id];
+
+    return AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(decks));
+  });
+}
+
 export function addCardToDeck(card) {
   return getDeck(card.deckId).then(deck => {
     deck.questions.push(card);
+
+    return saveDeck(deck);
+  });
+}
+
+export function deleteQuestions(deckId, questionsToDelete) {
+  return getDeck(deckId).then(deck => {
+    questionsToDelete
+      .sort()
+      .reverse()
+      .forEach(index => {
+        deck.questions.splice(index, 1);
+      });
 
     return saveDeck(deck);
   });

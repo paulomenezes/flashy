@@ -4,8 +4,8 @@ import { Text, View, StyleSheet } from 'react-native';
 import Card from './Card';
 import { calculateColor } from '../utils/helpers';
 
-const DefaultCard = ({ color, style, title, textColor, body }) => (
-  <Card color={color} style={style}>
+const DefaultCard = ({ color, style, innerStyle, title, textColor, body }) => (
+  <Card color={color} style={style} innerStyle={innerStyle}>
     <Text style={[styles.deckTitle, { color: textColor }]}>{title}</Text>
     <View style={[styles.deckQuantity, { backgroundColor: calculateColor(color, -0.1) }]}>
       <Text style={{ color: textColor }}>{body}</Text>
